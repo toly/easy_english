@@ -4,19 +4,24 @@ __author__ = 'toly'
     script for make per-page dictionaries according to user personal list of known words
 """
 
+import os
 import sys
 import argparse
+
+PERSONAL_USER_DIR = '~/.easy_english'
 
 
 def main():
     """
         main func - entry point
     """
+    # if not created - make work directory for personal user lists of words
+    if not os.path.exists(PERSONAL_USER_DIR):
+        os.mkdir(PERSONAL_USER_DIR)
+
     # make arguments parser and parse arguments
     arg_parser = make_arguments_parser()
     args = arg_parser.parse_args()
-
-    # if not created - make work directory for personal user lists of words
 
     # load lists of known words and "bad" (like "the", "a", etc) words
 

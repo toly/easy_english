@@ -5,15 +5,16 @@ __author__ = 'toly'
 """
 
 import sys
+import argparse
 
 
 def main():
     """
         main func - entry point
     """
-    pass
-
     # make arguments parser and parse arguments
+    arg_parser = make_arguments_parser()
+    args = arg_parser.parse_args()
 
     # if not created - make work directory for personal user lists of words
 
@@ -37,7 +38,10 @@ def make_arguments_parser():
     """
         make arguments parser and set options
     """
-    pass
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument('-i', '--input-file', type=str, required=True, help="input txt file")
+    argument_parser.add_argument('-o', '--output-file', type=str, help="output file (default: <input_file>_d.txt )")
+    return argument_parser
 
 
 if __name__ == "__main__":

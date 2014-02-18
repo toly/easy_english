@@ -5,6 +5,7 @@ __author__ = 'toly'
     script for make per-page dictionaries according to user personal list of known words
 """
 
+import re
 import os
 import sys
 import argparse
@@ -35,6 +36,13 @@ def main():
     known_words, unknown_words, bad_words = map(get_user_words, PERSONAL_FILES)
 
     # main loop-for by pages in input file
+    for page_num, page in enumerate(file_pages(args.input_file)):
+
+        print '>' * 20
+        print page
+
+        if page_num > 10:
+            break
 
         # loop-for by words in current page
 
@@ -70,6 +78,26 @@ def get_user_words(filename):
 
     with open(filename, 'r') as f:
         return f.readlines()
+
+
+def file_lines(filename):
+    """read file line by line"""
+    with open(filename) as f:
+        for line in f:
+            yield line
+
+
+def file_pages(filename, split_regexp=r'^===page #\d+$'):
+    """read file page by page"""
+    page = ''
+    for line in file_lines(filename):
+        if re.match(split_regexp, line):
+            yield page
+            page = ''
+            continue
+        page += line
+
+    yield page
 
 
 if __name__ == "__main__":

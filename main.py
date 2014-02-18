@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # coding: utf-8
 __author__ = 'toly'
 """
@@ -8,7 +9,14 @@ import os
 import sys
 import argparse
 
-PERSONAL_USER_DIR = '~/.easy_english'
+PERSONAL_USER_DIR = os.path.join(os.path.expanduser('~'), '.easy_english')
+KNOWN_WORDS_FILE = 'known_words.txt'
+UNKNOWN_WORDS_FILE = 'unknown_words.txt'
+BAD_WORDS_FILE = 'bad_words.txt'
+
+PERSONAL_FILES = [KNOWN_WORDS_FILE, UNKNOWN_WORDS_FILE, BAD_WORDS_FILE]
+KNOWN_WORDS_FILE, UNKNOWN_WORDS_FILE, BAD_WORDS_FILE = \
+    map(lambda x: os.path.join(PERSONAL_USER_DIR, x), PERSONAL_FILES)
 
 
 def main():

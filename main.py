@@ -15,8 +15,8 @@ UNKNOWN_WORDS_FILE = 'unknown_words.txt'
 BAD_WORDS_FILE = 'bad_words.txt'
 
 PERSONAL_FILES = [KNOWN_WORDS_FILE, UNKNOWN_WORDS_FILE, BAD_WORDS_FILE]
-KNOWN_WORDS_FILE, UNKNOWN_WORDS_FILE, BAD_WORDS_FILE = \
-    map(lambda x: os.path.join(PERSONAL_USER_DIR, x), PERSONAL_FILES)
+PERSONAL_FILES = map(lambda x: os.path.join(PERSONAL_USER_DIR, x), PERSONAL_FILES)
+KNOWN_WORDS_FILE, UNKNOWN_WORDS_FILE, BAD_WORDS_FILE = PERSONAL_FILES
 
 
 def main():
@@ -32,6 +32,7 @@ def main():
     args = arg_parser.parse_args()
 
     # load lists of known words and "bad" (like "the", "a", etc) words
+    known_words, unknown_words, bad_words = map(get_user_words, PERSONAL_FILES)
 
     # main loop-for by pages in input file
 
@@ -55,6 +56,20 @@ def make_arguments_parser():
     argument_parser.add_argument('-i', '--input-file', type=str, required=True, help="input txt file")
     argument_parser.add_argument('-o', '--output-file', type=str, help="output file (default: <input_file>_d.txt )")
     return argument_parser
+
+
+def get_user_words(filename):
+    """
+        get list of user words from file <filename>
+            or
+        create file if not exists
+    """
+    if not os.path.exists(filename):
+        open(filename, 'a').close()
+        return []
+
+    with open(filename, 'r') as f:
+        return f.readlines()
 
 
 if __name__ == "__main__":
